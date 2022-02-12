@@ -39,13 +39,13 @@ const recipes = [
 
 // All routes here are starting with /recipes.
 router.get('/', (req, res) => {
-    console.log(recipes);
     res.send(recipes)
 });
 
-router.post('/', (res, req) => {
-    
-    res.send()
+router.post('/', (req, res) => {
+    const recipe = req.body;
+    recipes.push(recipe)
+    res.send(`Recipe with name ${recipe.name} added to list`)
 })
 
 export default router;
