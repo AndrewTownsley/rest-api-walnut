@@ -1,10 +1,12 @@
 import express from 'express';
+import { v4 as uuidv4 } from 'uuid';
 
 const router = express.Router();
 
-const recipes = [
+let recipes = [
     {
         name: "scrambledEggs",
+        id: uuidv4(),
         ingredients: [
           "1 tsp oil",
           "2 eggs",
@@ -20,6 +22,7 @@ const recipes = [
       },
       {
         name: "garlicPasta",
+        id: uuidv4(),
         ingredients: [
           "500mL water",
           "100g spaghetti",
@@ -44,8 +47,25 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const recipe = req.body;
-    recipes.push(recipe)
+    
+    recipes.push({...recipe, id: uuidv4() })
+
     res.send(`Recipe with name ${recipe.name} added to list`)
+})
+
+// recipes/2 => req.params
+
+router.get('/:id', (req, res) => {
+    const { id } = req.params;
+    const findRecipe = recipes.find((recipe) => recipe.id === id)
+    res.send(findRecipe)
+})
+
+router.delete('/:id', (req, res) => {
+    console.log("Delete Route");
+    const { id } = req.params;
+    const deleteRecipe = recipes.filter((recipe) => recipe.id === id)
+    res.send(`Recipe with id:${id} deleted`);
 })
 
 export default router;
