@@ -68,4 +68,20 @@ router.delete('/:id', (req, res) => {
     res.send(`Recipe with id:${id} deleted`);
 })
 
+router.patch('/:id', (req, res) => {
+    console.log("Update Route");
+    const { id } = req.params;
+    const { name, ingredients, instructions } = req.body;
+    const recipe = recipes.find((recipe) => recipe.id === id);
+
+    if(name) recipe.name = name;
+    
+    if(ingredients) recipe.ingredients = ingredients;
+    
+    if(instructions) recipe.instructions = instructions;
+
+    res.send(`Recipe with id:${id} has been updated.`)
+
+})
+
 export default router;
